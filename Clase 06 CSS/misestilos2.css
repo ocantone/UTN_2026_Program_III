@@ -1,0 +1,18 @@
+
+body { 
+ background-color: #f0f0f0; 
+ text-align: center;
+}
+
+div > p.mitexto2{ 
+ color: #808080; 
+}
+div.div_1 > p{ 
+ color: #0000ff; 
+ font-family: "Arial";
+ font-size: 20px;
+}
+
+p.mitexto2 + p{ 
+ color: #990000; 
+}
