@@ -6,16 +6,21 @@
  function mostraralerta(){ 
  alert('hizo clic!'); 
  } 
+ function mostraralerta2(){ 
+ alert('Pasó el mouse!'); 
+ }
  function hacerclic(){ 
  var elemento=document.getElementsByTagName('p')[0]; 
  elemento.addEventListener('click', mostraralerta, false); 
+ elemento.addEventListener('mouseout', mostraralerta2, false); 
  } 
  window.addEventListener('load', hacerclic, false); 
  </script> 
 </head> 
+
 <body> 
  <div id="principal"> 
- <p>Hacer Clic</p> 
+ <p  style="display: inline-block; background-color: blueviolet;">Hacer Clic</p> 
  <p>No puede hacer Clic</p> 
  </div> 
 </body> 
