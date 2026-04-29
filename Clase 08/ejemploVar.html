@@ -12,13 +12,16 @@
 
     <script>
 
-        console.log(globalVar); // Imprime: undefined (debido al hoisting, la variable mensaje existe pero no ha sido asignada aún)   
-        console.log(localVar); // Error: localVar is not defined (no se puede acceder a esta variable antes de su declaración  )
-        console.log(minum); // Imprime: undefined (debido al hoisting, la variable minum existe pero no ha sido asignada aún)   
-        console.log(varEnBloque); // Imprime: undefined (debido al hoisting, la variable varEnBloque existe pero no ha sido asignada aún)   
-        console.log(saludar()); // Imprime: ¡Hola desde la función! (la función saludar también es hoisted)
-        console.log(saludar2); // Imprime: undefined (debido al hoisting, la variable saludar2 existe pero no ha sido asignada aún, ya que es una función anónima asignada a una variable)
+
+        console.log(saldo); // Imprime: 106.43 (la variable saldo es hoisted, pero su valor no está disponible hasta que se ejecuta esa línea de código)
+        console.log(PI); // Imprime 3.141592 (la variable PI es hoisted, pero su valor no está disponible hasta que se ejecuta esa línea de código).
+        console.log(mensaje); // Imprime undefined (la variable mensaje es hoisted, pero su valor no está disponible hasta que se ejecuta esa línea de código)
+        console.log(globalVar); // Imprime undefined (la variable globalVar es hoisted,
+        console.log(descuento); // Imprime undefined (la variable descuento es hoisted, pero su valor no está disponible hasta que se ejecuta esa línea de código)
+        console.log(num); // Imprime undefined (la variable num es hoisted, pero su valor no está disponible hasta que se ejecuta esa línea de código)
         
+
+
         // Declaración de una variable
        const PI = 3.141592; // Declaración de una constante (no puede ser reasignada).
        let saldo = 106.43; // Declaración de una variable con let (recomendada).
@@ -30,7 +33,8 @@
     function saludar() {
             console.log("¡Hola desde la función!");
         }
-    var saludar2 = function() {
+
+  var saludar2 = function() {
         console.log("¡Hola desde la función!");
     }        
         
@@ -60,13 +64,46 @@
         console.log(FC0A:00A0); // Imprime: ¡Hola, mundo! (la variable mensaje del bloque no afecta a esta)        
 
 
-//Tipos de datoss en JS:
+//  Tipos de datos en JS:
+
 // - String: para texto (ejemplo: "¡Hola, mundo!")
+
+parseInt("42"); // Convierte la cadena "42" a un número entero 42
+parseFloat("3.14"); // Convierte la cadena "3.14" a un número de punto flotante 3.14
+
+
 // - Number: para números (ejemplo: 42, 3.14159)
+toString(42); // Convierte el número 42 a la cadena "42"
+toString(3.14); // Convierte el número 3.14 a la cadena.
+
 // - Boolean: para valores de verdad (ejemplo: true, false)
+
 // - Object: para objetos (ejemplo: let persona = { nombre: "Juan", edad: 30 };)
+function saluda() {
+    console.log("¡Hola!");
+}
+
+function Persona(nombre, edad) {
+    this.nombre = nombre;
+    this.edad = edad;
+    this.saludar = function() {
+        console.log("¡Hola, soy " + this.nombre + " y tengo " + this.edad + " años!");
+    };
+    this.saluda = saluda; // Asigna la función saluda al método saluda del objeto Persona   
+}
+
+
+Juan = new Persona("Juan", 30); // Crea un nuevo objeto Persona con el nombre "Juan" y la edad 30   
+Juan.saludar(); // Imprime: ¡Hola, soy Juan y tengo 30 años! (el método saludar del objeto Juan se ejecuta correctamente)
+Juan.saluda(); // Imprime: ¡Hola! (el método saluda del objeto Juan se ejecuta correctamente, ya que la función saluda fue asignada al método saluda del objeto Persona)
+
+
+
+
 // - Function: para funciones (ejemplo: function saludar() { console.log("¡Hola!"); })
+
 // - Undefined: para variables que no han sido asignadas (ejemplo: let x; console.log(x); // undefined)
+
 // - Null: para representar la ausencia de valor (ejemplo: let y = null; console.log(y); // null)
 
 
