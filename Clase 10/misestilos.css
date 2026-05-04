@@ -1,0 +1,12 @@
+* { 
+ margin: 0px; 
+ padding: 0px; 
+} 
+#cabeceralogo { 
+ display: flex; 
+ justify-content: center; 
+ width: 96%; 
+ height: 150px; 
+ padding: 0% 2%; 
+ background-color: #0F76A0; 
+} 
