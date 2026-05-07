@@ -1,4 +1,4 @@
 *.html
 *.php
-Bibliografía/
-Clase 110/
+# Ignorar carpetas de borrador o temporales del docente
+_*
