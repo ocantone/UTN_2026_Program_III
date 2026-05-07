@@ -1,6 +1,4 @@
-.gitignore
-ejemplo.html
-index.html
-index.php
+*.html
+*.php
 Bibliografía/
 Clase 110/
