@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argumentos en JS: Valor vs Referencia - UTN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .code-block {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            border: 1px solid #334155;
+        }
+        .code-block pre {
+            margin: 0;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            white-space: pre; /* Preserva espacios e indentación */
+            overflow-x: auto;
+        }
+        .tab-active {
+            border-bottom: 3px solid #2563eb;
+            color: #1e40af;
+            font-weight: 600;
+        }
+        .exam-warning {
+            border-left: 5px solid #ef4444;
+            background-color: #fef2f2;
+        }
+        .stack-box {
+            background: #e2e8f0;
+            border: 2px solid #94a3b8;
+        }
+        .heap-box {
+            background: #dcfce7;
+            border: 2px solid #86efac;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <header class="mb-12 border-l-4 border-blue-600 pl-6">
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900">Funciones en JS: El Misterio de los Argumentos</h1>
+            <p class="mt-4 text-lg text-slate-600">Recurso para la UTN: Paso de parámetros, gestión de memoria y tipos de objetos.</p>
+        </header>
+
+        <nav class="flex space-x-4 md:space-x-8 mb-10 border-b border-slate-200 overflow-x-auto pb-1">
+            <button onclick="showTab('teoria')" id="tab-teoria" class="pb-4 transition-all tab-active whitespace-nowrap">Fundamentos</button>
+            <button onclick="showTab('objetos')" id="tab-objetos" class="pb-4 transition-all text-slate-500 hover:text-blue-600 whitespace-nowrap">✨ Literales vs Clases</button>
+            <button onclick="showTab('memoria')" id="tab-memoria" class="pb-4 transition-all text-slate-500 hover:text-blue-600 whitespace-nowrap">🧠 Memoria (Stack/Heap)</button>
+            <button onclick="showTab('trampa')" id="tab-trampa" class="pb-4 transition-all text-slate-500 hover:text-blue-600 whitespace-nowrap">🚨 Trampa de Examen</button>
+            <button onclick="showTab('visual')" id="tab-visual" class="pb-4 transition-all text-slate-500 hover:text-blue-600 whitespace-nowrap">Análisis de Mutabilidad</button>
+            <button onclick="showTab('comparativa')" id="tab-comparativa" class="pb-4 transition-all text-slate-500 hover:text-blue-600 whitespace-nowrap">JavaScript vs C</button>
+        </nav>
+
+        <main id="main-content">
+            <!-- Sección: Fundamentos -->
+            <section id="content-teoria" class="space-y-8 animate-in fade-in duration-300">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4">¿Valor o Referencia?</h2>
+                    <p class="mb-6">En JavaScript, no elegimos la sintaxis (como en C). El comportamiento depende del <strong>tipo de dato</strong>.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                            <h3 class="font-bold text-blue-900 mb-2">Paso por Valor (Primitivos)</h3>
+                            <p class="text-xs text-blue-800 mb-4">Numbers, Strings, Booleans. Se crea una copia.</p>
+                            <div class="code-block">
+<pre>let n = 10;
+function cambiar(val) {
+    val = 20; // No afecta a 'n'
+}
+cambiar(n);
+console.log(n); // Resultado: 10</pre>
+                            </div>
+                        </div>
+                        <div class="bg-amber-50 p-6 rounded-xl border border-amber-100">
+                            <h3 class="font-bold text-amber-900 mb-2">Paso por Referencia (Objetos)</h3>
+                            <p class="text-xs text-amber-800 mb-4">Objects, Arrays. Se pasa la dirección de memoria.</p>
+                            <div class="code-block">
+<pre>let obj = { x: 10 };
+function cambiar(o) {
+    o.x = 20; // ¡Afecta al original!
+}
+cambiar(obj);
+console.log(obj.x); // Resultado: 20</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Literales vs Clases -->
+            <section id="content-objetos" class="hidden space-y-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4">¿Objeto Literal o Instancia de Clase?</h2>
+                    <p class="mb-6 text-slate-600">Es común preguntarse de dónde "vienen" los objetos en JavaScript cuando no definimos una clase.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="p-6 bg-slate-50 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-800 mb-2">Objeto Literal</h3>
+                            <div class="code-block">
+<pre>let auto = { marca: "Ford" };</pre>
+                            </div>
+                            <ul class="mt-4 text-xs space-y-2 text-slate-700">
+                                <li>✅ <strong>¿Es una instancia?</strong> Sí, de la clase global <code class="bg-slate-200 px-1">Object</code>.</li>
+                                <li>✅ <strong>¿Tiene clase?</strong> Su prototipo es <code class="bg-slate-200 px-1">Object.prototype</code>.</li>
+                                <li>📌 Es ideal para agrupar datos de forma rápida (como un <code class="bg-slate-200 px-1">struct</code> en C).</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 bg-blue-50 rounded-xl border border-blue-200">
+                            <h3 class="font-bold text-blue-800 mb-2">Instancia de Clase (ES6)</h3>
+                            <div class="code-block">
+<pre>class Vehiculo { ... }
+let auto = new Vehiculo();</pre>
+                            </div>
+                            <ul class="mt-4 text-xs space-y-2 text-slate-700">
+                                <li>✅ <strong>¿Es una instancia?</strong> Sí, de la clase <code class="bg-blue-100 px-1">Vehiculo</code>.</li>
+                                <li>✅ <strong>Herencia:</strong> También es instancia de <code class="bg-slate-200 px-1">Object</code> por herencia.</li>
+                                <li>📌 Se usa cuando necesitamos comportamiento (métodos) y una estructura definida.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-900">
+                        <strong>Nota para la clase:</strong> Independientemente de cómo se cree (literal o con <code class="font-mono text-xs">new</code>), en JavaScript <strong>todos</strong> los objetos se guardan en el <strong>Heap</strong> y se acceden mediante una referencia en el <strong>Stack</strong>.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Memoria Stack/Heap -->
+            <section id="content-memoria" class="hidden space-y-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4">Modelo de Memoria en JS</h2>
+                    <p class="mb-8 text-slate-600">Para entender por qué los objetos se "pasan por referencia", debemos mirar dónde guarda JS cada cosa.</p>
+
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div class="space-y-4">
+                            <div class="p-4 bg-slate-100 rounded-lg border-2 border-slate-300">
+                                <h3 class="font-bold text-slate-700 flex items-center">
+                                    <span class="bg-slate-500 text-white text-xs px-2 py-1 rounded mr-2">STACK</span> 
+                                    Memoria Estática (Pila)
+                                </h3>
+                                <p class="text-xs mt-2 text-slate-600">Almacena datos de tamaño fijo y rápido acceso.</p>
+                                <ul class="text-xs list-disc ml-4 mt-2 text-slate-700">
+                                    <li>Variables primitivas (Number, Boolean).</li>
+                                    <li><strong>Referencias</strong> (punteros a objetos en el Heap).</li>
+                                    <li>Stack Frames de funciones (como en C).</li>
+                                </ul>
+                            </div>
+                            <div class="p-4 bg-green-50 rounded-lg border-2 border-green-200">
+                                <h3 class="font-bold text-green-700 flex items-center">
+                                    <span class="bg-green-600 text-white text-xs px-2 py-1 rounded mr-2">HEAP</span> 
+                                    Memoria Dinámica (Montón)
+                                </h3>
+                                <p class="text-xs mt-2 text-green-600">Almacena datos de tamaño variable y complejo.</p>
+                                <ul class="text-xs list-disc ml-4 mt-2 text-green-700">
+                                    <li>Objetos ({...}).</li>
+                                    <li>Arrays ([...]).</li>
+                                    <li>Funciones.</li>
+                                    <li>Gestionado por el Garbage Collector (sin free() manual).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center justify-center space-y-4 border-l border-slate-200 pl-4">
+                            <h4 class="text-sm font-bold text-slate-500 uppercase">Visualización Mental</h4>
+                            <div class="flex space-x-4 w-full">
+                                <div class="flex-1 flex flex-col space-y-2">
+                                    <div class="text-center text-[10px] font-bold">STACK</div>
+                                    <div class="h-10 stack-box rounded flex items-center justify-center text-[10px]">n: 10</div>
+                                    <div class="h-10 stack-box rounded border-2 border-blue-500 flex items-center justify-center text-[10px] font-bold">obj: #001</div>
+                                </div>
+                                <div class="flex items-center text-blue-500">➜</div>
+                                <div class="flex-1 flex flex-col space-y-2">
+                                    <div class="text-center text-[10px] font-bold">HEAP</div>
+                                    <div class="h-24 heap-box rounded border-2 border-blue-500 p-2 text-[10px]">
+                                        <strong>ID: #001</strong><br>
+                                        { marca: "Ford", ... }
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 text-center mt-4">Cuando pasamos 'obj' a una función, copiamos el <strong>#001</strong> (la dirección), no el contenido del Heap.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Trampa de Examen -->
+            <section id="content-trampa" class="hidden space-y-8">
+                <div class="exam-warning p-8 rounded-2xl shadow-md">
+                    <h2 class="text-2xl font-bold text-red-800 mb-2">La Trampa de la Reasignación</h2>
+                    <p class="mb-6 text-red-900 font-medium italic">"Si reasignas el objeto completo dentro de la función, rompes el vínculo con la dirección de memoria original."</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-800 mb-2 text-sm">CASO A: Mutar Propiedad</h3>
+                            <div class="code-block">
+<pre>let auto = { marca: "Ford" };
+
+function mutar(obj) {
+    obj.marca = "Fiat"; 
+}
+
+mutar(auto);
+console.log(auto.marca); // "Fiat"</pre>
+                            </div>
+                            <p class="mt-2 text-[10px] text-green-600 font-bold uppercase">Afecta al original (mismo #ID)</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-slate-200">
+                            <h3 class="font-bold text-slate-800 mb-2 text-sm">CASO B: Reasignar Objeto</h3>
+                            <div class="code-block">
+<pre>let auto = { marca: "Ford" };
+
+function reasignar(obj) {
+    obj = { marca: "Fiat" }; 
+}
+
+reasignar(auto);
+console.log(auto.marca); // "Ford"</pre>
+                            </div>
+                            <p class="mt-2 text-[10px] text-red-600 font-bold uppercase">NO afecta (nueva dirección en Stack)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Visual -->
+            <section id="content-visual" class="hidden space-y-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-blue-800 mb-2">Mapa de Mutabilidad</h2>
+                    <p class="text-slate-600 mb-8">¿Qué tan "peligroso" es pasar estos tipos de datos a una función?</p>
+                    <div class="chart-container">
+                        <canvas id="mutabilityChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Comparativa C -->
+            <section id="content-comparativa" class="hidden space-y-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-blue-800 mb-4">Mapeo Mental: C vs JavaScript</h2>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-100">
+                                <tr>
+                                    <th class="p-4 font-bold text-sm">Concepto en C</th>
+                                    <th class="p-4 font-bold text-sm">Equivalente en JS</th>
+                                    <th class="p-4 font-bold text-sm">Gestión de Memoria</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 text-sm">
+                                <tr>
+                                    <td class="p-4 font-mono text-blue-600">int a = 10;</td>
+                                    <td class="p-4 font-mono text-green-600">let a = 10;</td>
+                                    <td class="p-4 text-xs font-bold uppercase text-slate-400">Stack Only</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-mono text-blue-600">void f(int *a)</td>
+                                    <td class="p-4 font-mono text-green-600">function f(obj)</td>
+                                    <td class="p-4 text-xs font-bold uppercase text-blue-400">Stack (Ref) + Heap</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-mono text-blue-600">struct Nodo *n = malloc(...)</td>
+                                    <td class="p-4 font-mono text-green-600">const n = {};</td>
+                                    <td class="p-4 text-xs font-bold uppercase text-green-400">Heap (Auto Managed)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            const sections = ['teoria', 'objetos', 'memoria', 'trampa', 'visual', 'comparativa'];
+            sections.forEach(s => {
+                const content = document.getElementById('content-' + s);
+                if (content) content.classList.add('hidden');
+                
+                const btn = document.getElementById('tab-' + s);
+                if (btn) {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('text-slate-500');
+                }
+            });
+            
+            const activeContent = document.getElementById('content-' + tabId);
+            if (activeContent) activeContent.classList.remove('hidden');
+            
+            const activeBtn = document.getElementById('tab-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('tab-active');
+                activeBtn.classList.remove('text-slate-500');
+            }
+            
+            if (tabId === 'visual') initChart();
+        }
+
+        let chartInstance = null;
+        function initChart() {
+            if (chartInstance) return;
+            const canvas = document.getElementById('mutabilityChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Number', 'String', 'Object', 'Array', 'Date'],
+                    datasets: [{
+                        label: '% de Riesgo de Mutación Original',
+                        data: [0, 0, 95, 95, 90],
+                        backgroundColor: [
+                            'rgba(148, 163, 184, 0.4)',
+                            'rgba(148, 163, 184, 0.4)',
+                            'rgba(37, 99, 235, 0.7)',
+                            'rgba(37, 99, 235, 0.7)',
+                            'rgba(37, 99, 235, 0.7)'
+                        ],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

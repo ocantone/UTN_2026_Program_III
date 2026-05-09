@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        body {
+            font-family:Arial, Helvetica, sans-serif;
+            font-size: 24px;
+        }
+    </style>
+ 
+</head>
+
+<body>
+ <form name="F1" action="javascript:procesa();" method="post">
+  <input type="text" name="texto1" placeholder="Ingrese un texto" onchange="alert('Escribió');">
+ <button type="submit">Enviar</button>
+</form>
+
+<div id="div1">Contenido del input </div>
+<input type="button" id="btn-color" value="Cambiar color de fondo">
+  
+
+<script>
+    document.getElementById('btn-color').addEventListener('click', function() {
+ document.body.style.backgroundColor = "yellow";
+});
+    function procesa() {
+        var texto1 = document.F1.texto1.value;
+        document.getElementById("div1").innerHTML = "Texto ingresado: " + texto1;
+    }
+ </script>
+</body>
