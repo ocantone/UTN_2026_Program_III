@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>  </head>
+<body>
+<form name="F1"  action="javascript:procesa()" method="post">
+     Clave muy importante y recontra secreta 
+     <input type="text" size="20" maxlength="12" name="texto">
+    <br>
+    <input type="submit" value="Enviar">  
+</form>
+    <div id="mensaje"></div>
+    <div id="mensaje2"></div>
+
+<script>
+function procesa()
+{
+    let texto=document.forms["F1"]["texto"].value;
+    let textoB=document.F1.texto.value;
+
+    document.getElementById("mensaje").innerHTML=texto;
+    document.getElementById("mensaje2").innerHTML=textoB;
+
+}
+    </script>
+
+</body>
+
+
+
+
+</html>
