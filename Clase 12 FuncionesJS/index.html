@@ -12,12 +12,22 @@
                 document.getElementById("div3").innerHTML = "es un núumero.";
                 }
         }
-        
+
+        function uri (){
+var nombre = document.F1.nombre.value+" "+document.F1.apellido.value; 
+
+            var codificado = encodeURIComponent(nombre); 
+var miURL = "http://www.ejemplo.com/contacto.html?nombre=" + codificado; 
+document.F1.inText2.value = miURL;  
+        }
     </script>
 </head>
+
 <body>
 
     <h2> Funciones en JS </h2>
+   
+   <a href="argumentos.html" target="_blank">Argumentos en Java Script</a>
     <p>Texto variable global:
         <div id="div1"></div>
     </p>
@@ -30,10 +40,16 @@
     <form name=F1 id="F1" action="javascript:muestra();">
         <input type="text" id="inText1" size="20" >
         <input type="submit" value="Mostrar"> 
+        <br><br>
+<p>Nombre: <input type="text" id="nombre" size="30" ></p>
+<p>Apellido: <input type="text" id="apellido" size="30" ></p>
+        <input type="text" id="inText2" size="55" value="uri">
     </form>
 </p>
- <p><div id="div3"> </div> </p>
+ <p><a href="javascript:uri();"> Conformar URI </a></p>
 
+
+ <p><div id="div3"> </div> </p>
     <script>
         let variable = "Texto de la variable global";
       
@@ -45,6 +61,9 @@
            // console.log("Función ejecutada OK");
 
         }
+
+
+
 
         miFuncion();  //lamada a la función.
 
