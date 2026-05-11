@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argumentos en JS: Valor vs Referencia - UTN</title>
+    <script>
+           function muestra(){ 
+            let mivalor = document.getElementById("inText1").value ;
+            if (isNaN(mivalor)) { 
+                document.getElementById("div3").innerHTML= "no es un núumero.";
+                } else { 
+                document.getElementById("div3").innerHTML = "es un núumero.";
+                }
+        }
+        
+    </script>
+</head>
+<body>
+
+    <h2> Funciones en JS </h2>
+    <p>Texto variable global:
+        <div id="div1"></div>
+    </p>
+
+    <p>Modificado por la función:
+        <div id="div2"></div>
+    </p>
+
+  <p>  
+    <form name=F1 id="F1" action="javascript:muestra();">
+        <input type="text" id="inText1" size="20" >
+        <input type="submit" value="Mostrar"> 
+    </form>
+</p>
+ <p><div id="div3"> </div> </p>
+
+    <script>
+        let variable = "Texto de la variable global";
+      
+     
+        // lamada por valor. 
+        function miFuncion( ){
+            let variable = "Texto de la variable local";
+            document.getElementById("div2").innerHTML = variable;
+           // console.log("Función ejecutada OK");
+
+        }
+
+        miFuncion();  //lamada a la función.
+
+        document.getElementById("div1").innerHTML = variable;
+    </script>
+</body>
+</html>
