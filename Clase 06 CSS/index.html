@@ -4,33 +4,36 @@
 <head> 
     <meta charset="UTF-8">
     <title>Este texto es el título del documento</title>    
-     <link rel="stylesheet" href="misestilos2.css"> 
-    <style> 
-      /*  .mitexto1 { 
-            color: red; 
-            font-size: 20px; 
-        }*/ 
-        </style>
-    </head> 
+
+
+
+</head> 
 
 <body> 
 
-<div id="wrapper"> 
-    <p class="mitexto1">Mi texto 1</p> 
-    <p class="mitexto1" style="color: #fbff00;">
-        Mi texto 1 B</p> 
-    <p class="mitexto2">Mi texto 2</p> 
-    <p class="mitexto3">Mi texto 3</p> 
-    <p class="mitexto4">Mi texto 4</p> 
- </div>
- 
- <p><img src="imagen.jpg" alt="Descripción de la imagen"></p>
- 
- <p class="mitexto2">Mi texto 5</p> 
 
-    <div class="div_1">
-        <p style="width: 360px; background-color: #fbff00;">Párrafo en div classe "div_1"</p> 
-        <p >Párrafo en div classe "div_1"</p> 
-    </div>
+<div class="div_2">
+<p> Hijo 1</p>
+<p> Hijo 2</p>
+<p> Hijo 3</p>
+<p> Hijo 4</p>
+<p> Hijo 5</p>
+<p> Hijo 6</p>
+<p> Hijo 7</p>
+
+</div>
+
+<script>
+const x = document.querySelectorAll(".div_2 p:nth-child(odd)");
+for (let i = 0; i < x.length; i++) {
+    x[i].style.backgroundColor = "#ff0000";
+}  
+
+
+const y = document.querySelectorAll(".div_2 p:nth-child(even)");
+for (let i = 0; i < x.length; i++) {
+    y[i].style.backgroundColor = "#0000ff";
+}  
+</script>
 </body> 
 </html> 

@@ -20,6 +20,13 @@ var nombre = document.F1.nombre.value+" "+document.F1.apellido.value;
 var miURL = "http://www.ejemplo.com/contacto.html?nombre=" + codificado; 
 document.F1.inText2.value = miURL;  
         }
+
+    function sumar (a, b){
+        console.log(typeof a);
+        console.log(typeof b);
+        return a + b;
+    }
+
     </script>
 </head>
 
@@ -28,19 +35,19 @@ document.F1.inText2.value = miURL;
     <h2> Funciones en JS </h2>
    
    <a href="argumentos.html" target="_blank">Argumentos en Java Script</a>
-    <p>Texto variable global:
+    <p>- Texto variable global:
         <div id="div1"></div>
     </p>
 
-    <p>Modificado por la función:
+    <p>- Modificado por la función:
         <div id="div2"></div>
     </p>
-
+ 
   <p>  
     <form name=F1 id="F1" action="javascript:muestra();">
         <input type="text" id="inText1" size="20" >
         <input type="submit" value="Mostrar"> 
-        <br><br>
+        <p><div id="div3">div3 </div> </p>
 <p>Nombre: <input type="text" id="nombre" size="30" ></p>
 <p>Apellido: <input type="text" id="apellido" size="30" ></p>
         <input type="text" id="inText2" size="55" value="uri">
@@ -49,25 +56,24 @@ document.F1.inText2.value = miURL;
  <p><a href="javascript:uri();"> Conformar URI </a></p>
 
 
- <p><div id="div3"> </div> </p>
-    <script>
-        let variable = "Texto de la variable global";
-      
-     
-        // lamada por valor. 
-        function miFuncion( ){
-            let variable = "Texto de la variable local";
-            document.getElementById("div2").innerHTML = variable;
-           // console.log("Función ejecutada OK");
-
-        }
+        <div id="div4">div4 </div> 
 
 
+<script>
 
+let mi_var = "Variable global mi_var";
+  
+function miFuncion(){
+  let mi_var = "Variable local mi_var";   
+  document.getElementById("div2").innerHTML = mi_var;
+}
 
-        miFuncion();  //lamada a la función.
+miFuncion();  //lamada a la función.
 
-        document.getElementById("div1").innerHTML = variable;
-    </script>
+document.getElementById("div1").innerHTML = mi_var;
+
+document.getElementById("div4").innerHTML ="Resultado: " + sumar(2, 14) + sumar(" Hola ", "Mundo ") + sumar(2*3+4, " Mundo") ;
+ 
+</script>
 </body>
 </html>
