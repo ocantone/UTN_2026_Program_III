@@ -12,31 +12,45 @@ using System;
 using MySqlConnection = MySql.Data.MySqlClient.MySqlConnection;
 using MySqlCommand = MySql.Data.MySqlClient.MySqlCommand;
 using MySqlDataReader = MySql.Data.MySqlClient.MySqlDataReader;
+using System.Diagnostics;
 
 namespace ListaBDAlumnos
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            // Cadena de conexión.
-            string connectionString = "Server=127.0.0.1;Port=3306;Database=mibd;Uid=root;Pwd=root;";
+    class Conexion
+    {   
+        public static MySqlConnection Conectar()
+        {   string  connectionString  = "Server=127.0.0.1;";
+                    connectionString += "Port=3306;";
+                    connectionString += "Database=prog3n3;";
+                    connectionString += "Uid=root;";
+                    connectionString += "Pwd=root;";
             Console.WriteLine("Intentando conectar a la base de datos MySQL...");
-            // Abrimos la conexión asegurando el cierre de recursos con 'using'.
-            using (MySqlConnection conexion = new MySqlConnection(connectionString))
-            { //conexion es un OJETO que prepara el canal TCP para conectar al servidor MySql.
-                try
-                {
-                    conexion.Open(); //Aquí es dónde la conexión se abre. (Se cierra gracias a using)
-                    // Biri Biri
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("¡Conexión exitosa al servidor de MySQL!\n");
-                    Console.ResetColor();
+           return new MySqlConnection(connectionString);
+        }
+    }
+    class Menu
+    {
+        
+    }
+    class Consulta
+    {
+        
+    }
 
-                    // Sentencia SQL pura para interactuar con la BD
-           string consulta = "SELECT legajo, nombre, apellido, email, carrera, turno FROM alumnos";
+    class Program
+    {   
+        static string MuestraMenu()
+        {   string opcion;
+            Console.WriteLine("CONSULTA DE ALUMNOS:");
+            Console.WriteLine("1. Ver Alumnos Turno Mañana");
+            Console.WriteLine("2. Ver Alumnos Turno Noche");
+            Console.WriteLine("\n3.SALIR");
 
-                    using (MySqlCommand comando = new MySqlCommand(consulta, conexion))
+            return opcion = Console.ReadLine()??"";
+        }
+        static void ConsultaYMuestra(string consulta, MySqlConnection conn)
+        {
+                    using (MySqlCommand comando = new MySqlCommand(consulta, conn))
                     {
                         using (MySqlDataReader lector = comando.ExecuteReader())
                         {
@@ -59,12 +73,46 @@ namespace ListaBDAlumnos
 
                                 Console.WriteLine(string.Format("{0,-10} | {1,-12} | {2,-12} | {3,-32} | {4,-22} | {5,-8}", 
                                     legajo, nombre, apellido, email, carrera, turno));
+                                //paro la app al leer cada registro para ver la conexión abierta.
                                 //Console.ReadLine();
                             }
                             Console.WriteLine("==========================================================================================================\n");
                             
                         }
                     }
+        }
+        static void Main(string[] args)
+        {
+            bool salir = false;
+            string consulta = "SELECT legajo, nombre, apellido, email, carrera, turno FROM alumnos";
+
+            // Cadena de conexión.
+            MySqlConnection conn = Conexion.Conectar();
+            // Abrimos la conexión asegurando el cierre de recursos con 'using'.
+            using (conn)
+            { //conexion es un OJETO que prepara el canal TCP para conectar al servidor MySql.
+                try
+                {
+                    conn.Open(); //Aquí es dónde la conexión se abre. (Se cierra gracias a using)
+                    // Biri Biri
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("¡Conexión exitosa al servidor de MySQL!\n");
+                    Console.ResetColor();
+
+                    ConsultaYMuestra(consulta, conn);
+        
+                    while (!salir)
+                    {
+                        switch ( MuestraMenu() )
+                        {
+                            case "1": consulta = "SELECT legajo, nombre, apellido, email, carrera, turno FROM alumnos WHERE turno = 'mañana'"; break;
+                            case "2": consulta = "SELECT legajo, nombre, apellido, email, carrera, turno FROM alumnos WHERE turno = 'noche'"; break;
+                            case "3": salir = true; break;
+                        }
+                        if(!salir) ConsultaYMuestra(consulta, conn);
+                    
+                    }
+            
                 }
                 catch (Exception ex)
                 {
@@ -74,7 +122,10 @@ namespace ListaBDAlumnos
                     Console.WriteLine(ex.Message);
                     Console.ResetColor();
                 }
-            }
+            }  //cierra conexión.
+
+            
+        
 
             Console.WriteLine("Presione cualquier tecla para salir...");
             Console.ReadKey();
