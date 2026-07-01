@@ -1,2 +1,15 @@
 # Ignorar carpetas de borrador o temporales del docente
 _*
+
+# Objetos y Binarios
+[Bb]in/
+[Oo]bj/
+
+# Archivos de usuario de VS
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Herramientas de paquetes
+.nuget/
